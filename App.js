@@ -2,13 +2,18 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
 
 import axios from 'axios';
+
 import Desk from './Components/Desk';
+import Instruccion from './Components/Instruccion';
+import DealerResult from './Components/DealerResult';
 
 export default function App() {
   
   const [cartas, setCartas] = useState([]);
   const [shuffle, setShuffle] = useState('');
   const [acumulador, setAcumulador] = useState(0);
+
+  const [showInstruccion, setShowInstruccion] = useState(true);
 
   useEffect(()=>{
      const consultaBaraja = async () => {
@@ -30,15 +35,6 @@ export default function App() {
     useEffect(()=>{console.log("acumulador:", acumulador)},[acumulador]);
     
     const handleStop = () => {
-    //   cartas.map(carta => {
-    //     if (carta.value === 'KING' || carta.value === 'QUEEN' || carta.value === 'JACK') {
-    //       setAcumulador(acumulador + 10);
-    //     } else if (carta.value === 'ACE') {
-    //       setAcumulador(acumulador + 1);
-    //     } else {
-    //     setAcumulador(acumulador + parseInt(carta.value));
-    //     }
-    // })
     
     let contador= 0;
     for(let i=0; i<cartas.length; i++){
@@ -52,7 +48,7 @@ export default function App() {
 
     }
     setAcumulador(contador);
-    console.log(contador)
+    // console.log(contador)
   };
 
     const handleHit =() => {
@@ -73,14 +69,20 @@ export default function App() {
     <View style={styles.container}>
       <Text>mi blackjack</Text>
      
-      <View>
-      <Desk cartas={cartas} handleHit={handleHit} handleStop={handleStop}/>
-      </View>
+    {showInstruccion? <Instruccion setShowInstruccion={setShowInstruccion}/>: null}
 
-      <View>
-        <Text>{acumulador}</Text>
-      </View>
+    {!showInstruccion &&
+        <View>
+          <View>
+          <Desk cartas={cartas} handleHit={handleHit} handleStop={handleStop}/>
+          </View>
 
+          <View>
+            {/* <Text>{acumulador}</Text> */}
+            <DealerResult acumulador={acumulador}/>
+          </View>
+        </View>
+  }
     </View>
   );
 }
