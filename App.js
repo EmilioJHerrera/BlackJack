@@ -3,12 +3,19 @@ import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native'
 
 import axios from 'axios';
 
+import { useFonts } from 'expo-font';
+import  AppLoading from 'expo-app-loading';
+
 import Desk from './Components/Desk';
 import Instruccion from './Components/Instruccion';
 import DealerResult from './Components/DealerResult';
 
+import { Colors } from './assets/Colors';
+
 export default function App() {
   
+ 
+
   const [cartas, setCartas] = useState([]);
   const [shuffle, setShuffle] = useState('');
   const [acumulador, setAcumulador] = useState(0);
@@ -64,10 +71,16 @@ export default function App() {
     }
     nuevaCarta();
     };
+
+    //OJO DONDE SE COLOQUE ESTO!!!! SINO REACT CONVULSIONA POR LOS USEEFFECT
+    const [loaded] = useFonts({
+      'CevicheOne': require('./assets/fonts/CevicheOne-Regular.ttf'),
+    });
+    if (!loaded) {return <AppLoading />}
   
   return (
     <View style={styles.container}>
-      <Text>mi blackjack</Text>
+      <Text style={styles.textHeader}>Mi Blackjack</Text>
      
     {showInstruccion? <Instruccion setShowInstruccion={setShowInstruccion}/>: null}
 
@@ -90,7 +103,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.backGround,
+   
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -98,5 +112,11 @@ const styles = StyleSheet.create({
     width: 70,
     height: 100,
   },
+  textHeader:{
+    fontFamily: 'CevicheOne',
+    fontSize: 40,
+    marginBottom: '10%',
+    color: '#dFdFdF',
+  }  
   
 });

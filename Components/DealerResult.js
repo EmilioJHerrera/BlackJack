@@ -1,18 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+
+import { Colors } from '../assets/Colors';
 
 const DealerResult = ({acumulador}) => {
     
     const [dealer, setDealer] = useState(0); 
     const [winner, setWinner] = useState("");    
+
+// funcion para un numero entero cualquiera
     const numeroCualquiera = (min, max) =>{
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    
+// setea el valor del dealer    
     const llamarDealer = () => {
         setDealer(numeroCualquiera(18, 23));
   }
   
+//calcula el ganador y lo setea en el state  
     const calcularGanador = () => {
         if ((dealer > acumulador) && (dealer <= 21)){
             setWinner("Dealer gana, la casa siempre gana!");
@@ -31,20 +36,25 @@ const DealerResult = ({acumulador}) => {
         }
     }
   
-  
+//efecto para llamar al dealer y calcular el ganador en cada render
   useEffect(()=> {llamarDealer(),calcularGanador()}, []);
+//efecto para calcular el ganador cada vez que se modifique el acumulador
   useEffect(()=> {calcularGanador()}, [acumulador]);
-  return ( <View>
+  return ( <View >
     
-    <Text>Dealer:{dealer}</Text>
-    <Text>Usted:{acumulador}</Text>
-    <Text>{winner}</Text>
+    <Text style={styles.text}>Dealer:{dealer}</Text>
+    <Text style={styles.text}>Usted:{acumulador}</Text>
+    <Text style={styles.text}>{winner}</Text>
     
 
     </View> );
 }
 
 const styles = StyleSheet.create({
+    text: {
+        color: Colors.textColor,
+        fontSize: 20,
+    },
 
 });
 export default DealerResult;
