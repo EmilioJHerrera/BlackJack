@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 import { Colors } from '../assets/Colors';
 
+import WrapperContainer from '../assets/WrapperContainer';
+
 const DealerResult = ({acumulador}) => {
     
     const [dealer, setDealer] = useState(0); 
@@ -41,11 +43,11 @@ const DealerResult = ({acumulador}) => {
 //efecto para calcular el ganador cada vez que se modifique el acumulador
   useEffect(()=> {calcularGanador()}, [acumulador]);
   return ( <View >
-    
+    <WrapperContainer>
     <Text style={styles.text}>Dealer:{dealer}</Text>
     <Text style={styles.text}>Usted:{acumulador}</Text>
     <Text style={styles.text}>{winner}</Text>
-    
+    </WrapperContainer>
 
     </View> );
 }
