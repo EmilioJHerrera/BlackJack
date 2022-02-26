@@ -19,27 +19,35 @@ export default function App() {
   const [cartas, setCartas] = useState([]);
   const [shuffle, setShuffle] = useState('');
   const [acumulador, setAcumulador] = useState(0);
-
+  const [isReset, setIsReset] = useState(false);
+  const [showResult,isShowResult] = useState(false);
   const [showInstruccion, setShowInstruccion] = useState(true);
 
-  useEffect(()=>{
-     const consultaBaraja = async () => {
-       const url = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1';
-       const resultado = await axios.get(url);
-       //obtener el id del shuffle
-       setShuffle(resultado.data.deck_id);
-        const url2 = `https://deckofcardsapi.com/api/deck/${resultado.data.deck_id}/draw/?count=2`;
-        const resultado2 = await axios.get(url2);
-        console.log(resultado2.data.cards);
-        setCartas(resultado2.data.cards);
-      //obtener las 2 cartas iniciales
-     }
+  //funcion para obtener las 2 cartas del dealer
+
+  const consultaBaraja = async () => {
+    const url = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1';
+    const resultado = await axios.get(url);
+    //obtener el id del shuffle
+    setShuffle(resultado.data.deck_id);
+     const url2 = `https://deckofcardsapi.com/api/deck/${resultado.data.deck_id}/draw/?count=2`;
+     const resultado2 = await axios.get(url2);
+     console.log(resultado2.data.cards);
+     setCartas(resultado2.data.cards);
+   //obtener las 2 cartas iniciales
+  }
+
+  useEffect(()=>{  
     
-     
      consultaBaraja();
     },[]);
     
-    useEffect(()=>{console.log("acumulador:", acumulador)},[acumulador]);
+    useEffect(()=>{
+      console.log("acumulador:", acumulador)
+      consultaBaraja();
+      //isShowResult(false);
+      //setShowInstruccion(false)
+    },[isReset]);
     
     const handleStop = () => {
     
@@ -55,6 +63,7 @@ export default function App() {
 
     }
     setAcumulador(contador);
+    isShowResult(true);
     // console.log(contador)
   };
 
@@ -82,7 +91,7 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.textHeader}>Mi Blackjack</Text>
      
-    {showInstruccion? <Instruccion setShowInstruccion={setShowInstruccion}/>: null}
+    {showInstruccion && <Instruccion setShowInstruccion={setShowInstruccion}/>}
 
     {!showInstruccion &&
         <View>
@@ -91,8 +100,10 @@ export default function App() {
           </View>
 
           <View>
-            {/* <Text>{acumulador}</Text> */}
-            <DealerResult acumulador={acumulador}/>
+           {showResult && 
+            <DealerResult acumulador={acumulador} setAcumulador={setAcumulador} isReset ={isReset} setIsReset={setIsReset} isShowResult={isShowResult}/>
+           }
+           
           </View>
         </View>
   }
