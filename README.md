@@ -1,8 +1,9 @@
-# Desafío entregable
+# Desafío de juego de blackjack
 
->A partir de este ciclo inicial, crear paso a paso un juego contra la máquina con las funcionalidades y estilos más concretos:
+Aprovecha y disfruta de este desafío de juego de blackjack.
 
->-Al menos dos pantallas y switch entre ellas.
->-Componentes compartidos.
->-Fonts externos.
->-Estilo visual de la app.
+Las normas del juego estan dentro de la aplicación.
+
+Cualquier comentario o sugerencia, por favor comunícate con el desarrollador.
+
+¡Saludos!
